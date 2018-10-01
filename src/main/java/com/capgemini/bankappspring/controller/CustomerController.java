@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.capgemini.bankappspring.entities.Customer;
 import com.capgemini.bankappspring.exceptions.LowBalanceException;
+import com.capgemini.bankappspring.exceptions.PasswordChangeFailedException;
+import com.capgemini.bankappspring.exceptions.UpdationFailedException;
+import com.capgemini.bankappspring.exceptions.UserNotFoundException;
 import com.capgemini.bankappspring.service.BankAccountService;
 import com.capgemini.bankappspring.service.CustomerService;
 
@@ -42,7 +45,7 @@ public class CustomerController {
 	}
 
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
-	public String login(@ModelAttribute Customer customer, HttpServletRequest request, HttpSession session) {
+	public String login(@ModelAttribute Customer customer, HttpServletRequest request, HttpSession session) throws UserNotFoundException {
 		Customer c = customerService.authenticate(customer);
 		session = request.getSession();
 		if (c != null) {
@@ -67,7 +70,7 @@ public class CustomerController {
 	}
 
 	@RequestMapping(value = "/editProfile.do", method = RequestMethod.POST)
-	public String updateProfile(@ModelAttribute Customer customer, HttpServletRequest request) {
+	public String updateProfile(@ModelAttribute Customer customer, HttpServletRequest request)throws UpdationFailedException {
 		if (customerService.updateProfile(customer) != null)
 			return "successEdit";
 		return "error";
@@ -80,7 +83,7 @@ public class CustomerController {
 
 	@RequestMapping(value = "/changePassword.do", method = RequestMethod.POST)
 	public String updatePassword(@ModelAttribute Customer customer, @RequestParam String oldPassword,
-			@RequestParam String newPassword, HttpServletRequest request, HttpSession session) {
+			@RequestParam String newPassword, HttpServletRequest request, HttpSession session)throws PasswordChangeFailedException{
 		customer=(Customer) session.getAttribute("customer");
 		if (customerService.updatePassword(customer, oldPassword, newPassword)) {
 			session.setAttribute("customer", customer);
