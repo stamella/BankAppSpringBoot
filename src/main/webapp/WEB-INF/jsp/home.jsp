@@ -10,11 +10,11 @@
 </head>
 <body>
 <div class="container">
-  <img src="/images/icici.jpg" align="left"  width="70" height="100">
+  <img src="/images/icici.jpg" align="left"  width="200" height="100">
   <div class="topright"></div>
 </div>
 <br>
-<h1 align="center"><h1>Welcome to HDFC BANK</h1>
+<h1 align="center"><h1>Welcome to ICICI BANK</h1>
 <br>
 <header>
 
